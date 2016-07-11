@@ -8,8 +8,5 @@ galaxy_info:
   - name: OpenBSD
     versions:
     - 5.9
-  galaxy_tags: [ ansible ]
-dependencies:
-    - src: https://www.shore.co.il/git/ansible-role-openbsd-bootstrap
-      scm: git
-      name: bootstrap
+  galaxy_tags: [ bgp, spam, mail ]
+dependencies: []
