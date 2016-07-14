@@ -1,9 +1,9 @@
-Example
-#######
+bgp-spamd
+#########
 
-An (empty) example Ansible role complete with working tests out of the box. For
-more information read the `blog post
-<https://www.shore.co.il/blog/ansible-example-role/>`_.
+Provision spamd with spam list distributed via bpg. For more information visit
+`bgp-spamd.net <http://bgp-spamd.net/>`_. PF config is more general and out of
+scope for this role.
 
 Requirements
 ------------
@@ -53,3 +53,11 @@ Nimrod Adar, `contact me <nimrod@shore.co.il>`_ or visit my `website
 <https://www.shore.co.il/>`_. Patches are welcome via `git send-email
 <http://git-scm.com/book/en/v2/Git-Commands-Email>`_. The repository is located
 at: https://www.shore.co.il/git/.
+
+- Log to syslog.
+- At the end flush handlers and wait for services to start?
+- Use PF anchors if possible.
+- Assertions.
+- Tests.
+- Use dhparams?
+- Alias email to root.
