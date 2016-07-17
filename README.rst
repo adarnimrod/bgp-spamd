@@ -2,8 +2,22 @@ bgp-spamd
 #########
 
 Provision spamd with spam list distributed via bpg. For more information visit
-`bgp-spamd.net <http://bgp-spamd.net/>`_. PF config is more general and out of
-scope for this role.
+`bgp-spamd.net <http://bgp-spamd.net/>`_. Configuration of PF is more custom and
+out of scope for this role, however a PF anchor can be used by adding the
+following to your :code:`pf.conf`.
+
+.. code::
+
+    anchor bgp-spamd
+    load anchor bgp-spamd from "/etc/pf.conf.bgp-spamd"
+
+This will add 2 PF tables, :code:`spamd-white` and :code:`bgp-spamd-bypass`,
+both contain whitelisted IP addresses of mail senders. You can allow them
+through by adding the following line to your :code:`pf.conf`.
+
+.. code::
+
+    pass in quick proto tcp from { <bgp-spamd-bypass>, <spamd-white> } to port smtp
 
 Requirements
 ------------
