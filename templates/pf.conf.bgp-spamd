@@ -1,0 +1,3 @@
+set limit table-entries 400000 # bgp-spamd-bypass list is 200k entries as of March 1, 2014.
+table <spamd-white> persist #spamd white list
+table <bgp-spamd-bypass> persist #spamd whilte list distributed via BGP

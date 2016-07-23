@@ -3,21 +3,22 @@ bgp-spamd
 
 Provision spamd with spam list distributed via bpg. For more information visit
 `bgp-spamd.net <http://bgp-spamd.net/>`_. Configuration of PF is more custom and
-out of scope for this role, however a PF anchor can be used by adding the
-following to your :code:`pf.conf`.
+out of scope for this role, however one can include the configuration snippet
+created by this role by adding the following to your :code:`pf.conf`.
 
 .. code::
 
-    anchor bgp-spamd
-    load anchor bgp-spamd from "/etc/pf.conf.bgp-spamd"
+    include "/etc/pf.conf.bgp-spamd"
 
 This will add 2 PF tables, :code:`spamd-white` and :code:`bgp-spamd-bypass`,
 both contain whitelisted IP addresses of mail senders. You can allow them
-through by adding the following line to your :code:`pf.conf`.
+through and send the rest to the spam trap by adding the following line to
+your :code:`pf.conf`.
 
 .. code::
 
     pass in quick proto tcp from { <bgp-spamd-bypass>, <spamd-white> } to port smtp
+    pass in quick proto tcp to (egress:0) port smtp rdr-to 127.0.0.1 port spamd
 
 Requirements
 ------------
@@ -67,11 +68,3 @@ Nimrod Adar, `contact me <nimrod@shore.co.il>`_ or visit my `website
 <https://www.shore.co.il/>`_. Patches are welcome via `git send-email
 <http://git-scm.com/book/en/v2/Git-Commands-Email>`_. The repository is located
 at: https://www.shore.co.il/git/.
-
-- Log to syslog.
-- At the end flush handlers and wait for services to start?
-- Use PF anchors if possible.
-- Assertions.
-- Tests.
-- Use dhparams?
-- Alias email to root.

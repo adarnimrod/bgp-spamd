@@ -1,2 +1,18 @@
 ---
 # handlers file for ansible-role-bgp-spamd
+
+- name: Reload PF
+  command: /sbin/pfctl -f /etc/pf.conf
+
+- name: Restart bgpd
+  service:
+      name: bgpd
+      state: restarted
+
+- name: Restart spamd
+  service:
+      name: spamd
+      state: restarted
+
+- name: Update SMTPd database
+  command: /usr/bin/newaliases

@@ -1,2 +1,5 @@
 ---
 # defaults file for ansible-role-bgp-spamd
+
+spamd_hostname: '{{ ansible_fqdn }}' # The hostname sent by spamd.
+spamd_alloweddomains: [] # Allowed domains to be whitelisted.

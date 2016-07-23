@@ -4,4 +4,78 @@
 - assert:
     that:
         - ansible_os_family == 'OpenBSD'
-        - ansible_distribution_release == '5.9'
+
+- name: Configure PF anchor
+  template:
+      src: pf.conf.bgp-spamd
+      dest: /etc/pf.conf.bgp-spamd
+      owner: root
+      group: wheel
+      mode: 0o0600
+  notify:
+      - Restart bgpd
+      - Reload PF
+
+- name: Configure bpgd
+  template:
+      src: bgpd.conf
+      dest: /etc/bgpd.conf
+      owner: root
+      group: wheel
+      mode: 0o0600
+  notify:
+      - Restart bgpd
+
+- name: Add allowed domains
+  with_items: '{{ spamd_alloweddomains }}'
+  lineinfile:
+      dest: /etc/mail/spamd.alloweddomains
+      line: '{{ item }}'
+      create: yes
+      owner: root
+      group: 0
+      mode: 0o0644
+  notify:
+      - Restart spamd
+
+- name: Enable services
+  with_items:
+      - line: 'spamd_flags="-h {{ spamd_hostname }} -G25:12:864"'
+        regexp: spamd_flags
+      - line: 'bgpd_flags='
+        regexp: bgpd_flags
+  lineinfile:
+      line: '{{ item.line }}'
+      regexp: '{{ item.regexp }}'
+      dest: /etc/rc.conf.local
+  notify:
+      - Restart spamd
+
+- name: Alias email to root
+  with_items:
+      - _bgpd
+      - _spamd
+  lineinfile:
+      line: '{{ item }}: root'
+      regexp: '{{ item }}:'
+      state: present
+      dest: /etc/mail/aliases
+  notify:
+      - Update SMTPd database
+
+- name: Start services
+  with_items:
+      - bgpd
+      - spamd
+  service:
+      name: '{{ item }}'
+      state: started
+
+- meta: flush_handlers
+
+- name: Wait for services to start
+  with_items:
+      - 8025
+      - 179
+  wait_for:
+      port: '{{ item }}'
