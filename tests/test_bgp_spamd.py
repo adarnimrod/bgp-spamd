@@ -6,13 +6,15 @@ def test_spamd_config(File):
     assert File('/etc/rc.conf.local').contains('spamd_flags=')
 
 
-def test_bgpd_config(File):
-    assert File('/etc/bgpd.conf').contains('spamdAS')
+def test_bgpd_config(File, Sudo):
+    with Sudo():
+        assert File('/etc/bgpd.conf').contains('spamdAS')
 
 
-def test_pf_anchor(File, Command):
+def test_pf_anchor(File, Command, Sudo):
     assert File('/etc/pf.conf.bgp-spamd').exists
-    assert Command('/sbin/pfctl -f /etc/pf.conf').rc == 0
+    with Sudo():
+        assert Command('/sbin/pfctl -f /etc/pf.conf').rc == 0
 
 
 def test_spamd_socket(Socket):
