@@ -8,5 +8,6 @@ galaxy_info:
   - name: OpenBSD
     versions:
     - 5.9
+    - 6.0
   galaxy_tags: [ bgp, spam, mail ]
 dependencies: []
