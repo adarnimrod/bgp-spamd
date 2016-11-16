@@ -1,15 +1,15 @@
 ---
-- hosts: all
+- hosts: ansible-role-bgp-spamd-openbsd
   gather_facts: false
-  roles: [ansible-role-openbsd-bootstrap]
+  roles: [openbsd_bootstrap]
 
 - hosts: all
-  vars:
-      spamd_alloweddomains: ["{{ ansible_domain }}"]
   pre_tasks:
       - name: Include pf.conf.bgp-spamd
         lineinfile:
             line: include "/etc/pf.conf.bgp-spamd"
             dest: /etc/pf.conf
             state: present
-  roles: [ansible-role-bgp-spamd]
+  roles:
+      - role: ansible-role-bgp-spamd
+        spamd_alloweddomains: ["{{ ansible_domain }}"]
