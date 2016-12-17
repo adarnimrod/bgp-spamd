@@ -1,6 +1,6 @@
 galaxy_info:
   author: Nimrod Adar
-  description: An example Ansible role
+  description: Provision spamd with spam list distributed via BGP using OpenBGPD on OpenBSD
   company: Shore technologies
   license: MIT
   min_ansible_version: 2.0
