@@ -76,10 +76,4 @@ Author Information
 Nimrod Adar, `contact me <nimrod@shore.co.il>`_ or visit my `website
 <https://www.shore.co.il/>`_. Patches are welcome via `git send-email
 <http://git-scm.com/book/en/v2/Git-Commands-Email>`_. The repository is located
-at: https://www.shore.co.il/git/.
-
-TODO
-----
-
-- Better tests in Travis CI (currently everything is done offline because of
-  dependency on VirtualBox).
+at: https://git.shore.co.il/explore/.
